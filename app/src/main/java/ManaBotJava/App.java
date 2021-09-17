@@ -3,7 +3,7 @@
  */
 package ManaBotJava;
 
-import managers.*;
+import Managers.*;
 
 public class App {
 

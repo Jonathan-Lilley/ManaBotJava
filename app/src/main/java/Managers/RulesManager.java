@@ -1,4 +1,4 @@
-package managers;
+package Managers;
 
 public class RulesManager {
 }
