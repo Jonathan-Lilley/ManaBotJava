@@ -1,26 +1,48 @@
-package helpers;
+package Helpers;
 
+import Helpers.JSONCardParser;
 import java.io.*;
+import java.util.HashMap;
 import java.util.Scanner;
+import java.util.Map;
 import java.net.MalformedURLException;
+import java.net.URL;
 import net.lingala.zip4j.exception.ZipException;
 import net.lingala.zip4j.core.ZipFile;
-import java.net.URL;
-import org.json.simple.JSONObject;
+
+import javax.swing.plaf.basic.BasicInternalFrameTitlePane;
 
 
 public class Downloader {
     final String hashFile = "./src/main/resources/hashfile.txt";
     final String dataFile = "./src/main/resources/AllPrintings.json";
+    final String imageDir = "./src/main/resources/CardImages/";
     final String dataUrl = "https://mtgjson.com/api/v5/AllPrintings.json";
     final String picURL1 = "https://gatherer.wizards.com/Handlers/Image.ashx?name=";
     // insert cardname with spaces as %20 between these two strings;
     final String picURL2 = "&type=card";
     String dataHash;
+    final private Map<String,Boolean> updateStatus = new HashMap<String,Boolean>();
 
     public Downloader() {
+        // Initialize stuff
+        this.updateStatus.put("attempted",false);
+        this.updateStatus.put("successful",false);
+        JSONCardParser parser;
+
+        // update hash and data
         try {
             this.updateHash();
+            this.updateStatus.replace("attempted",true);
+            parser = new JSONCardParser(dataFile);
+
+            // update all the images
+            try {
+                this.updateImages(parser);
+            }
+            catch(Exception e){
+                System.out.println("Updating images failed");
+            }
         }
         catch(MalformedURLException e) {
             System.out.println("URL exception caught updating hash");
@@ -31,6 +53,8 @@ public class Downloader {
         catch(IOException e){
             System.out.println("IO exception caught updating hash");
         }
+
+        // clear hash
         try {
             this.clearHash();
         }
@@ -40,6 +64,11 @@ public class Downloader {
         catch(IOException e){
             System.out.println("IO exception caught clearing hash");
         }
+
+    }
+
+    public Map<String,Boolean> getUpdateStatus() {
+        return this.updateStatus;
     }
 
     private void clearHash() throws FileNotFoundException, IOException {
@@ -95,7 +124,7 @@ public class Downloader {
     private void updateJSON() throws MalformedURLException, IOException {
         try (BufferedInputStream in = new BufferedInputStream(new URL(dataUrl+".zip").openStream());
              FileOutputStream fileOutputStream = new FileOutputStream(dataFile+".zip")) {
-            byte dataBuffer[] = new byte[1024];
+            byte[] dataBuffer = new byte[1024];
             int bytesRead;
             while ((bytesRead = in.read(dataBuffer, 0, 1024)) != -1) {
                 fileOutputStream.write(dataBuffer, 0, bytesRead);
@@ -114,8 +143,17 @@ public class Downloader {
         }
     }
 
-    private void updateImages() throws MalformedURLException, IOException {
 
+    private void updateImages(JSONCardParser parser) throws MalformedURLException, IOException {
+        try {
+            JSONObject cards = parser.parseJSON(dataFile);
+            for(String card: cards) {
+                
+            }
+        }
+        catch(Exception e) {
+            System.out.println("IM TIRED OF FORCED EXCEPTION HANDLING, FUCK");
+        }
     }
 
 }

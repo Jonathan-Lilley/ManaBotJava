@@ -21,7 +21,10 @@ dependencies {
     testImplementation 'junit:junit:4.13.2'
 
     // This dependency is used by the application.
+    implementation 'org.json:json:20171018'
     implementation 'com.google.guava:guava:30.1.1-jre'
+    // https://mvnrepository.com/artifact/net.lingala.zip4j/zip4j
+    implementation 'net.lingala.zip4j:zip4j:1.2.4'
 }
 
 application {
