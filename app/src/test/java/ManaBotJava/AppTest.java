@@ -4,30 +4,42 @@
 package ManaBotJava;
 
 import Helpers.Downloader;
+import Helpers.JSONCardParser;
+import static Helpers.JSONCardParser.parseJSONCards;
+
+
+import org.json.simple.JSONObject;
+
 import org.junit.Test;
-
-import java.util.HashMap;
-import java.util.Map;
-
 import static org.junit.Assert.*;
 
 public class AppTest {
+    String dataFile = "./src/main/resources/AllPrintings.json";
 
-    @Test
-    public void checkDownloder_1v1() {
-        System.out.println("Test: checkDownloader_1v1");
+    /*@Test
+    public void checkDownloader_1() {
+        System.out.println("Test: checkDownloader_1");
 
-        Downloader dwnldr = new Downloader();
+        Downloader dwnldr = new Downloader(false);
+        System.out.println("Test functions done. Running asserts.");
+
         assertNotNull(dwnldr);
         assertTrue(dwnldr.getUpdateStatus());
-    }
+
+        System.out.println("\n");
+    }*/
 
     @Test
-    public void checkDownloder_1v2() {
-        System.out.println("Test: checkDownloader_1v2");
+    public void checkJSONParse() {
+        System.out.println("Test: checkJSONParse: get a JSONObject");
 
-        Downloader dwnldr = new Downloader(true);
-        assertNotNull(dwnldr);
-        assertTrue(dwnldr.getUpdateStatus());
+        JSONObject testObj = parseJSONCards(dataFile);
+        System.out.println("Test functions done. Running asserts.");
+
+        assertNotNull(testObj);
+        //assertEquals("JSONObject",testObj.getClass().getSimpleName());
+
+        System.out.println("\n");
     }
+
 }

@@ -3,14 +3,16 @@ package Helpers;
 //import Helpers.JSONCardParser;
 
 import java.io.*;
-import java.util.HashMap;
+
 import java.util.Scanner;
-import java.util.Map;
 import java.util.Iterator;
-import java.net.MalformedURLException;
+
 import java.net.URL;
+import java.net.MalformedURLException;
+
 import net.lingala.zip4j.exception.ZipException;
 import net.lingala.zip4j.core.ZipFile;
+
 import org.json.simple.JSONObject;
 import org.json.simple.JSONArray;
 import org.json.simple.parser.JSONParser;
@@ -27,15 +29,7 @@ public class Downloader {
     String dataHash;
     private boolean updateSuccessful = false;
 
-    public Downloader() {
-        this.startDownload(false);
-    }
-
     public Downloader(boolean clearHash) {
-        this.startDownload(clearHash);
-    }
-
-    private void startDownload(boolean clearHash) {
 
         // make sure resources path exists
         File resourcePath = new File("./src/main/resources/");
@@ -44,7 +38,6 @@ public class Downloader {
         }
         // Initialize stuff
         //JSONCardParser parser;
-
 
         if(clearHash) {
             // clear hash
